@@ -859,20 +859,20 @@ html.lenis, html.lenis body { height: auto; }
 /* Curseur « trait dessiné » */
 .cursor-wrap { position: fixed; inset: 0; z-index: 100; pointer-events: none; mix-blend-mode: difference; }
 .cursor-canvas { position: absolute; inset: 0; }
-.cursor-haze { filter: blur(10px); opacity: 0.9; }
+.cursor-haze { filter: blur(14px); opacity: 0.9; }
 .cursor-dot {
   position: absolute;
   left: 0;
   top: 0;
-  width: 8px;
-  height: 8px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: #fff;
   opacity: 0;
   transition: width 0.25s, height 0.25s, opacity 0.25s;
   will-change: transform;
 }
-.cursor-dot.is-link { width: 16px; height: 16px; }
+.cursor-dot.is-link { width: 24px; height: 24px; }
 /* l'ajustement du « Back to top » sous la spirale ne concerne que la home */
 .page-case .back-top-row { margin-top: 0; padding-top: var(--gap-s); }
 
