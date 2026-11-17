@@ -687,6 +687,8 @@ html.lenis, html.lenis body { height: auto; }
 }
 .case-grid span { border-left: 1px solid rgba(255, 255, 255, 0.05); }
 .case-grid span:last-child { border-right: 1px solid rgba(255, 255, 255, 0.05); }
+/* Lignes de grille masquées sur les pages projets */
+.case-grid { display: none; }
 
 /* Typo mono */
 .mono-label, .mono-value, .mono-num, .mono-btn {
