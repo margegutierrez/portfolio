@@ -728,8 +728,9 @@ html.lenis, html.lenis body { height: auto; }
 .case-title .m-ch { letter-spacing: 0; }
 .case-title .m-mask { margin-right: calc(-0.04em - 0.045em); }
 .case-sub {
-  max-width: 560px;
+  max-width: none;
   margin: 0;
+  text-wrap: balance;
   font-size: clamp(20px, 1.8vw, 28px);
   line-height: 1.2;
   letter-spacing: -0.015em;
