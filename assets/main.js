@@ -389,8 +389,8 @@
     let px = null, py = null;
     const spawn = (x0, y0, vx0, vy0) => {
       sparks.push({
-        x: x0 + (Math.random() - 0.5) * 12,
-        y: y0 + (Math.random() - 0.5) * 12,
+        x: x0 + (Math.random() - 0.5) * 18,
+        y: y0 + (Math.random() - 0.5) * 18,
         vx: vx0 * 0.03 + (Math.random() - 0.5) * 0.6,
         vy: vy0 * 0.03 + Math.random() * 0.4,
         s: 0.3 + Math.random() * 0.6,           // taille de l'éclat
@@ -449,7 +449,7 @@
           hctx.moveTo((a.x + b.x) / 2, (a.y + b.y) / 2);
           hctx.quadraticCurveTo(b.x, b.y, (b.x + c.x) / 2, (b.y + c.y) / 2);
           hctx.strokeStyle = `rgba(255,255,255,${(ease * 0.32).toFixed(3)})`;
-          hctx.lineWidth = 4 + ease * 18;
+          hctx.lineWidth = 6 + ease * 27;
           hctx.stroke();
         }
       }
