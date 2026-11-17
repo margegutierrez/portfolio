@@ -1,0 +1,927 @@
+/* ==========================================================================
+   Marjolaine Gutierrez — Portfolio
+   ========================================================================== */
+
+@font-face {
+  font-family: "Geist";
+  src: url("fonts/geist.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Geist";
+  src: url("fonts/geist-ext.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Geist Mono";
+  src: url("fonts/geist-mono.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root {
+  --bg: #000;
+  --fg: #fff;
+  --muted: #999;
+  --dim: #666;
+  --line: rgba(255, 255, 255, 0.14);
+  --max: 1480px;
+  --pad: clamp(20px, 2.2vw, 36px);
+  --sans: "Geist", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --gothic: "Geist", system-ui, sans-serif;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+html { overflow-x: clip; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--sans);
+  font-optical-sizing: auto;
+  font-size: 14px;
+  line-height: 1.25;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+
+.wrap {
+  width: 100%;
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--pad);
+}
+
+.rule { height: 1px; background: var(--line); border: 0; margin: 0; }
+
+/* Grands titres (remplace l'ancienne gothique) : Geist Light, approche serrée */
+.gothic {
+  font-family: var(--gothic);
+  font-weight: 300;
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+}
+.logo.gothic { font-weight: 500; letter-spacing: -0.02em; font-size: 18px; }
+
+/* --------------------------------------------------------------------------
+   Letter roll (nav, buttons)
+   -------------------------------------------------------------------------- */
+
+.roll { display: inline-flex; overflow: hidden; line-height: 1.2; }
+.roll .ch {
+  position: relative;
+  display: inline-block;
+  white-space: pre;
+  transition: transform 0.5s var(--ease);
+  transition-delay: calc(var(--i) * 18ms);
+}
+.roll .ch::after {
+  content: attr(data-c);
+  position: absolute;
+  left: 0;
+  top: 100%;
+}
+.roll-host:hover .roll .ch,
+.roll-host:focus-visible .roll .ch { transform: translateY(-100%); }
+
+/* --------------------------------------------------------------------------
+   Header
+   -------------------------------------------------------------------------- */
+
+.site-header .bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  padding: 0 calc(var(--pad) * 0.6);
+}
+
+.logo { font-size: 22px; }
+
+.nav { display: flex; gap: 22px; font-size: 14px; font-weight: 500; color: #bbb; }
+.nav a { transition: color 0.3s; }
+.nav a:hover,
+.nav a[aria-current="page"] { color: var(--fg); }
+
+/* --------------------------------------------------------------------------
+   Hero
+   -------------------------------------------------------------------------- */
+
+.hero-intro { padding: clamp(80px, 13vh, 150px) calc(var(--pad) * 0.6) 64px; }
+
+.hero-intro h1 {
+  margin: 0;
+  font-size: clamp(34px, 3.4vw, 49px);
+  font-weight: 500;
+  line-height: 1.03;
+  letter-spacing: -0.016em;
+}
+
+.hero-intro p {
+  margin: 14px 0 0;
+  font-size: clamp(16px, 1.25vw, 18px);
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.hero-name {
+  padding: clamp(24px, 3vw, 44px) 0 clamp(40px, 4vw, 64px);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.fit { display: inline-block; white-space: nowrap; }
+
+/* --------------------------------------------------------------------------
+   Scroll-reveal statements
+   -------------------------------------------------------------------------- */
+
+.statement-section { position: relative; padding-block: clamp(110px, 20vh, 240px) clamp(110px, 22vh, 260px); }
+
+.statement {
+  position: relative;
+  z-index: 2;
+  max-width: 980px;
+  margin: 0 auto;
+  font-size: clamp(36px, 5.4vw, 79px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.006em;
+  mix-blend-mode: difference;
+}
+.statement--narrow { max-width: 1000px; margin-left: 15%; }
+
+.statement .w { display: inline-block; white-space: nowrap; }
+.statement .c { opacity: 0.35; transition: opacity 0.25s linear; }
+.statement .c.on { opacity: 1; }
+
+.about-portrait {
+  position: relative;
+  z-index: 1;
+  width: clamp(200px, 20vw, 326px);
+  margin: -40px 0 0 auto;
+  margin-right: calc(50% - min(490px, 46vw) + 30px);
+  will-change: transform;
+}
+.about-portrait img { width: 100%; aspect-ratio: 326 / 400; object-fit: cover; }
+
+/* --------------------------------------------------------------------------
+   Marquee
+   -------------------------------------------------------------------------- */
+
+.marquee { overflow: hidden; padding: 20px 0; }
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+.marquee-item {
+  display: flex;
+  align-items: center;
+  gap: clamp(40px, 7vw, 110px);
+  padding-right: clamp(40px, 7vw, 110px);
+  font-size: clamp(80px, 11vw, 170px);
+}
+.marquee-item svg { width: clamp(16px, 2vw, 28px); height: auto; flex: none; }
+
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* --------------------------------------------------------------------------
+   Projects
+   -------------------------------------------------------------------------- */
+
+.projects { padding-block: clamp(50px, 8vw, 110px) clamp(100px, 14vw, 220px); }
+
+.projects-grid {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1432 / 7432;
+}
+
+.card {
+  position: absolute;
+  width: 34.92%;
+  left: var(--x);
+  top: var(--y);
+  display: block;
+}
+.card .media { overflow: hidden; background: #0d0d0d; }
+.card img,
+.card video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  transition: filter 0.8s var(--ease), transform 1.2s var(--ease);
+}
+.card--tall img,
+.card--tall video { aspect-ratio: 5 / 6; }
+.card:hover img,
+.card:hover video { filter: brightness(0.55); transform: scale(1.04); }
+.card .label { display: block; margin-top: 14px; font-size: 16px; font-weight: 500; }
+
+/* left / centre / right columns, tops proportional to grid height */
+.c-l { --x: 0%; }
+.c-c { --x: 32.54%; }
+.c-r { --x: 65.08%; }
+
+/* Reveal on enter */
+.reveal {
+  opacity: 0;
+  translate: 0 60px;
+  transition: opacity 1s var(--ease), translate 1.2s var(--ease);
+}
+.reveal.in { opacity: 1; translate: 0 0; }
+
+
+/* --------------------------------------------------------------------------
+   Section titles, expertise, experience
+   -------------------------------------------------------------------------- */
+
+.section { padding-block: clamp(70px, 10vw, 140px); }
+
+.section-title {
+  margin: 0 0 clamp(50px, 6vw, 90px);
+  font-size: clamp(84px, 10.6vw, 168px);
+}
+
+.expertise-list { margin: 0 0 0 37.2%; padding: 0; list-style: none; }
+.expertise-list li {
+  display: grid;
+  grid-template-columns: 10.8% 26% 1fr;
+  align-items: center;
+  padding: 34px 0;
+  border-bottom: 1px solid var(--line);
+}
+.expertise-list li:first-child { padding-top: 0; }
+.expertise-list li:last-child { border-bottom: 0; }
+.expertise-list .num { font-size: 12px; font-weight: 500; }
+.expertise-list h3 { margin: 0; font-size: 18px; font-weight: 500; line-height: 1.2; max-width: 9em; }
+.expertise-list p { margin: 0; font-size: 12px; line-height: 1.42; color: var(--muted); max-width: 320px; }
+
+.experience { margin: 0; padding: 0; list-style: none; font-size: 14px; font-weight: 500; }
+.experience li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 29% 29% 1fr auto;
+  padding: 18px 0;
+}
+.experience li::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: var(--fg);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.9s var(--ease);
+}
+.experience li:hover::before { transform: scaleX(1); }
+
+/* --------------------------------------------------------------------------
+   Tools helix (structure et valeurs reprises du site Framer)
+   4 plans empilés de 151px, tournés de 0/45/90/135°, chaque visuel posé
+   sur le bord gauche du plan à -90° : une spirale de rayon 432px.
+   Au scroll : rotateY 90° → -90° et translateY 240px → -200px.
+   -------------------------------------------------------------------------- */
+
+.tools {
+  /* la spirale démarre décalée vers le bas : on remonte la section pour
+     garder le même écart qu'entre les autres blocs */
+  padding-top: 0;
+  margin-top: calc(-1 * clamp(70px, 10vw, 140px) - 150px);
+  pointer-events: none;
+  --rw: 865px;   /* largeur d'un plan → rayon de la spirale = rw / 2 */
+  --rh: 151px;   /* hauteur d'un plan → pas de la spirale */
+  --fw: 320px;   /* taille d'un visuel */
+  --fh: 215px;
+}
+.tools-track { position: relative; height: calc(min(883px, 100svh) + 1400px); }
+.tools-sticky {
+  position: sticky;
+  top: 0;
+  height: min(883px, 100svh);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.helix-scale { display: flex; transform-style: preserve-3d; }
+.helix { pointer-events: auto; }
+.helix {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: var(--rw);
+  height: calc(var(--rh) * 4);
+  flex: none;
+  transform-style: preserve-3d;
+  transform: perspective(1200px) translateY(240px) rotateY(90deg);
+  will-change: transform;
+}
+.helix-row {
+  position: relative;
+  flex: none;
+  width: var(--rw);
+  height: var(--rh);
+  transform-style: preserve-3d;
+  transform: rotateY(var(--r, 0deg));
+}
+.helix-face {
+  position: absolute;
+  left: calc(var(--fw) / -2 - 1px);
+  top: calc(var(--rh) / 2 - 50px - var(--fh) / 2);
+  width: var(--fw);
+  height: var(--fh);
+  margin: 0;
+  transform: rotateY(-90deg);
+}
+.helix-face--first { left: 0; top: calc(var(--rh) / 2); transform: translate(-50%, -50%) rotateY(-90deg); }
+.helix-face img { width: 100%; height: 100%; object-fit: cover; }
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+
+.back-top-row { display: flex; justify-content: center; padding: clamp(80px, 10vw, 160px) 0 44px; }
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border: 1.5px solid var(--fg);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  transition: background 0.35s, color 0.35s;
+}
+.pill:hover { background: var(--fg); color: var(--bg); }
+
+.footer-big {
+  display: block;
+  text-align: center;
+  padding: clamp(30px, 4vw, 60px) 0 clamp(24px, 3vw, 48px);
+  line-height: 1.15;
+}
+.footer-big .fit { transition: transform 0.8s var(--ease); }
+.footer-big:hover .fit { transform: translateY(-6%); }
+
+/* --------------------------------------------------------------------------
+   Contact
+   -------------------------------------------------------------------------- */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+  padding: 40px calc(var(--pad) * 0.6) 36px;
+}
+.contact-photo { width: min(100%, 491px); }
+.contact-photo img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: center 30%; }
+
+.contact-list { margin: 0 0 0 auto; padding: 0; list-style: none; width: min(100%, 500px); }
+.contact-list li { border-bottom: 1px solid rgba(187, 187, 187, 0.2); }
+.contact-list a {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+.contact-list .hl {
+  position: absolute;
+  left: -6px;
+  right: -4px;
+  bottom: -1px;
+  height: 1px;
+  background: var(--fg);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.75s var(--ease);
+}
+.contact-list a:hover .hl,
+.contact-list a:focus-visible .hl { transform: scaleX(1); }
+.contact-list .arrow { width: 12px; height: 12px; transition: transform 0.4s var(--ease); }
+.contact-list a:hover .arrow { transform: translate(2px, -2px); }
+
+/* --------------------------------------------------------------------------
+   Home intro (relevé sur le site Framer)
+   0 → 2s     : « Marjolaine » tombe du haut en fondu, à 60 % de sa taille
+   2.25 → 3.35s : il grandit et descend à sa place
+   3.3s       : la ligne du header glisse depuis la gauche
+   3.7s       : titre + sous-titre montent en fondu, la nav descend en fondu
+   -------------------------------------------------------------------------- */
+
+.intro .hero-name-move { transform: translateY(-37vh) scale(0.6); }
+.intro .hero-name .fit { opacity: 0; transform: translateY(-50vh); }
+.intro .site-header .rule,
+.intro main > section:first-child .rule { transform: translateX(-103%); }
+.intro .site-header .bar { opacity: 0; transform: translateY(-90px); }
+.intro .hero-intro h1,
+.intro .hero-intro p { opacity: 0; transform: translateY(45px); }
+.site-header { overflow-x: clip; }
+.hero-name-move { display: block; transform-origin: 50% 50%; }
+
+/* --------------------------------------------------------------------------
+   Page load
+   -------------------------------------------------------------------------- */
+
+.load { opacity: 0; translate: 0 30px; filter: blur(8px); }
+.loaded .load {
+  opacity: 1;
+  translate: 0 0;
+  filter: blur(0);
+  transition: opacity 1.1s var(--ease), translate 1.3s var(--ease), filter 1.1s var(--ease);
+  transition-delay: var(--d, 0s);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive
+   -------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------
+   Responsive
+   ≥ 1025 : desktop · 701–1024 : tablette · ≤ 700 : mobile
+   La grille projets « éditoriale » est proportionnelle : elle tient
+   jusqu'à la tablette portrait. En dessous, une colonne décalée.
+   -------------------------------------------------------------------------- */
+
+/* Appareils tactiles : pas de survol collant, pas de pastille « View » */
+@media (hover: none) {
+  .card { cursor: pointer; }
+  .card:hover img,
+  .card:hover video { filter: none; transform: none; }
+  .footer-big:hover .fit { transform: none; }
+  .experience li:hover::before { transform: scaleX(0); }
+}
+
+@media (max-width: 1024px) {
+  .expertise-list { margin-left: 0; }
+  .expertise-list li { grid-template-columns: 64px 30% 1fr; }
+  .statement--narrow { margin-left: auto; }
+  .card .label { font-size: 14px; margin-top: 10px; }
+}
+
+@media (max-width: 700px) {
+  :root { --pad: 20px; }
+
+  .site-header .bar { height: 60px; padding: 0; }
+  .logo { font-size: 18px; }
+  .nav { gap: 16px; }
+  .hero-intro { padding: 72px 0 44px; }
+
+  .statement { font-size: clamp(30px, 9vw, 40px); line-height: 1.04; }
+  .about-portrait { width: 58%; margin-left: auto; }
+
+  .marquee-item { font-size: 76px; }
+
+  /* Projets : une colonne, vignettes empilées pleine largeur */
+  .projects-grid { aspect-ratio: auto; display: flex; flex-direction: column; gap: 48px; }
+  .card { position: static; width: 100%; }
+  .card--tall img,
+  .card--tall video { aspect-ratio: 1 / 1; }
+
+  .section-title { font-size: clamp(64px, 19vw, 96px); }
+
+  .expertise-list li { grid-template-columns: 36px 1fr; row-gap: 10px; padding: 24px 0; }
+  .expertise-list p { grid-column: 2; font-size: 13px; }
+
+  .experience li { grid-template-columns: 1fr 1fr; row-gap: 4px; padding: 14px 0; font-size: 13px; }
+  .experience li span:nth-child(2) { grid-row: 2; grid-column: 1; color: var(--muted); font-size: 12px; font-weight: 400; }
+  .experience li span:nth-child(3) { grid-row: 1; grid-column: 2; }
+  .experience li span:nth-child(4) { display: none; }
+
+  .tools { --rw: 520px; --rh: 120px; --fw: 260px; --fh: 175px; }
+
+
+  .contact-grid { grid-template-columns: 1fr; gap: 32px; padding: 28px 0; }
+  .contact-photo { width: 100%; }
+  .contact-list { margin: 0; width: 100%; }
+  .contact-list a { padding: 16px 0; font-size: 15px; }
+}
+
+/* --------------------------------------------------------------------------
+   Rythme vertical tablette / mobile
+   Un seul pas entre les catégories (--gap), un pas court entre un titre
+   et son contenu (--gap-s). Chaque bloc ne porte que sa marge basse,
+   pour qu'aucun espace ne se cumule.
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  :root { --gap: 128px; --gap-s: 56px; }
+  /* Hero plein écran : intro en haut, le nom calé en bas de l'écran */
+  /* Hero plein écran : intro + nom groupés et centrés, la suite n'arrive qu'au scroll */
+  .hero { display: flex; flex-direction: column; justify-content: center; min-height: calc(100svh - 73px); padding-bottom: 6svh; }
+  .hero .hero-intro { padding-top: 0; padding-bottom: 40px; }
+  .hero .hero-name { padding-block: 20px 24px; }
+  main > section:nth-child(2) { padding-top: calc(var(--gap) - 40px); }
+  .statement-section { padding-block: 0 var(--gap); }
+  .about-portrait { margin-top: -28px; }  /* chevauche légèrement la fin de la phrase */
+  .projects { padding-block: var(--gap-s) var(--gap); }
+  .section { padding-block: 0 var(--gap); }
+  .section-title { margin-bottom: var(--gap-s); }
+  /* la spirale démarre décalée vers le bas (translateY 240px) : on compense */
+  .tools { padding-top: 0; margin-top: calc(var(--gap) * -1 - 120px); }
+  .tools-track { height: calc(70svh + 1200px); }
+  .tools-sticky { top: 15svh; height: 70svh; }
+  .page-home .back-top-row { padding-top: 0; margin-top: -8svh; position: relative; }
+  .page-contact .back-top-row { padding-top: var(--gap-s); }
+}
+@media (max-width: 700px) {
+  :root { --gap: 96px; --gap-s: 48px; }
+  .hero { min-height: calc(100svh - 61px); }
+  .hero .hero-intro { padding-bottom: 32px; }
+  .tools { margin-top: calc(var(--gap) * -1 - 110px); }
+  .tools-track { height: calc(64svh + 900px); }
+  .tools-sticky { top: 18svh; height: 64svh; }
+}
+
+@media (min-width: 701px) and (max-width: 1024px) {
+  .contact-grid { grid-template-columns: 1fr 1fr; padding-inline: 0; }
+  .experience li { grid-template-columns: 26% 22% 1fr auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal, .load { opacity: 1 !important; translate: none !important; filter: none !important; }
+  .statement .c { opacity: 1; }
+}
+
+/* ==========================================================================
+   Motion layer
+   Une seule courbe (expo out), trois durées (0.9 / 1.3 / 1.8s),
+   des décalages courts. Tout part d'une classe .is-in posée au scroll.
+   ========================================================================== */
+
+@property --ps { syntax: "<number>"; inherits: false; initial-value: 1; }
+
+:root { --out: cubic-bezier(0.19, 1, 0.22, 1); }
+
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-stopped { overflow: clip; }
+
+/* Fade — opacité, légère montée, flou qui se dissipe */
+[data-reveal="fade"] {
+  opacity: 0;
+  translate: 0 28px;
+  filter: blur(6px);
+  transition: opacity 1.3s var(--out), translate 1.3s var(--out), filter 1.3s var(--out);
+  transition-delay: var(--d, 0s);
+}
+[data-reveal="fade"].is-in { opacity: 1; translate: 0 0; filter: blur(0); }
+
+/* Lettres — chaque caractère sort d'un masque */
+.m-mask { display: inline-block; overflow: hidden; vertical-align: top; padding: 0.08em 0.04em 0.36em; margin: -0.08em -0.04em -0.36em; }
+/* une fois l'apparition finie, plus de masque : évite les artefacts de rendu (iOS) */
+.is-done .m-mask { overflow: visible; }
+.m-ch {
+  display: inline-block;
+  translate: 0 110%;
+  rotate: 6deg;
+  transform-origin: 0 100%;
+  transition: translate 1.3s var(--out), rotate 1.3s var(--out);
+  transition-delay: calc(var(--d, 0s) + var(--i) * 32ms);
+}
+.is-in .m-ch { translate: 0 0; rotate: 0deg; }
+
+/* Lignes — pour les listes : fondu décalé + filet qui se trace */
+[data-reveal="rows"] > * {
+  opacity: 0;
+  translate: 0 22px;
+  transition: opacity 1.1s var(--out), translate 1.1s var(--out);
+  transition-delay: calc(var(--i) * 70ms + 0.1s);
+}
+[data-reveal="rows"].is-in > * { opacity: 1; translate: 0 0; }
+[data-reveal="rows"] > * { border-bottom-color: transparent !important; }
+[data-reveal="rows"] > *::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: var(--line);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.6s var(--out);
+  transition-delay: calc(var(--i) * 70ms);
+}
+[data-reveal="rows"].is-in > *::after { transform: scaleX(1); }
+.expertise-list li, .contact-list li { position: relative; }
+.expertise-list li:last-child::after { display: none; }
+
+/* Images — apparition douce : fondu, légère montée, dézoom à peine perceptible.
+   Pas de rideau ni de flou : l'image se pose, simplement. */
+[data-reveal="image"] {
+  opacity: 0;
+  translate: 0 36px;
+  transition: opacity 1.4s cubic-bezier(0.25, 0.1, 0.25, 1), translate 1.6s var(--out);
+  transition-delay: var(--d, 0s);
+}
+[data-reveal="image"].is-in { opacity: 1; translate: 0 0; }
+[data-reveal="image"] .plx,
+[data-reveal="image"] > img,
+[data-reveal="image"] > video {
+  --ps: 1.06;
+  transform: translate3d(0, var(--py, 0px), 0) scale(var(--ps));
+  transition: --ps 2.2s var(--out);
+  transition-delay: var(--d, 0s);
+}
+[data-reveal="image"] .plx { --ps: 1.16; }
+[data-reveal="image"].is-in .plx { --ps: 1.12; }
+[data-reveal="image"].is-in > img,
+[data-reveal="image"].is-in > video { --ps: 1; }
+
+/* Statements : opacité continue, pilotée au scroll */
+.statement .c { display: inline-block; transition: none; opacity: 0.2; transform: translate3d(0, 0.28em, 0); will-change: transform, opacity; }
+
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal], [data-reveal] > *, .m-ch { opacity: 1 !important; translate: none !important; rotate: none !important; filter: none !important; }
+  [data-reveal="rows"] > *::after { transform: none !important; }
+}
+
+/* ==========================================================================
+   Pages projets — template « étude de cas » (d'après moisez.com/work/tribu)
+   Grille 12 colonnes visible, libellés en Geist Mono, grand titre Geist Light,
+   sections « 01 LIBELLÉ » + grand paragraphe qui s'allume mot à mot.
+   ========================================================================== */
+
+:root { --gap: clamp(120px, 11vw, 176px); --gap-s: clamp(48px, 4.5vw, 72px); --gut: clamp(8px, 0.8vw, 12px); }
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: inset(50%); white-space: nowrap; }
+
+/* Grille de fond */
+.case-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  width: 100%;
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--pad);
+}
+.case-grid span { border-left: 1px solid rgba(255, 255, 255, 0.05); }
+.case-grid span:last-child { border-right: 1px solid rgba(255, 255, 255, 0.05); }
+
+/* Typo mono */
+.mono-label, .mono-value, .mono-num, .mono-btn {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.35;
+}
+.mono-label { margin: 0; color: var(--muted); }
+.mono-value { color: var(--fg); }
+.mono-num { color: var(--muted); margin-right: 14px; }
+.mono-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  color: var(--fg);
+  transition: background 0.35s, color 0.35s, border-color 0.35s;
+}
+.mono-btn:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.mono-btn--solid { background: var(--fg); color: var(--bg); border-color: var(--fg); margin-top: 48px; }
+.mono-btn--solid:hover { background: transparent; color: var(--fg); }
+
+/* En-tête de l'étude de cas */
+.case-hero { padding-top: clamp(28px, 3vw, 48px); }
+.case-kicker { margin-top: clamp(40px, 4vw, 64px); }
+.case-title {
+  margin: 14px 0 24px;
+  font-size: clamp(64px, 10.5vw, 168px);
+  font-weight: 300;
+  line-height: 0.92;
+  letter-spacing: -0.06em;
+}
+.case-title .m-ch { letter-spacing: 0; }
+.case-title .m-mask { margin-right: calc(-0.04em - 0.045em); }
+.case-sub {
+  max-width: 560px;
+  margin: 0;
+  font-size: clamp(20px, 1.8vw, 28px);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: #9b9b9b;
+}
+.case-meta {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0 var(--gut);
+  margin-top: var(--gap-s);
+}
+.case-meta-item { position: relative; display: grid; gap: 6px; padding: 14px 0 0; }
+.case-meta-item::after { inset: 0 0 auto 0 !important; }
+.case-cover { padding-block: var(--gap-s) 0; }
+
+/* Sections */
+.case-sec { padding-top: var(--gap); }
+.case-sec-head { display: grid; grid-template-columns: repeat(12, 1fr); gap: 0 var(--gut); align-items: start; }
+.case-sec-label { grid-column: 1 / span 3; position: sticky; top: 96px; color: var(--fg); }
+.case-sec-text { grid-column: 4 / span 9; }
+.case-lead {
+  margin: 0;
+  font-size: clamp(26px, 2.9vw, 46px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  text-indent: 11.2%;
+}
+.case-lead .lw { opacity: 0.22; }
+.case-body { max-width: 640px; margin: 28px 0 0; font-size: clamp(16px, 1.2vw, 18px); line-height: 1.55; color: #a8a8a8; }
+.case-lead + .case-body { margin-top: 36px; }
+.case-items-caption { margin-top: 48px; }
+.case-points { margin: 40px 0 0; padding: 0; list-style: none; }
+.case-items-caption + .case-points { margin-top: 16px; }
+.case-points li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  align-items: baseline;
+  padding: 16px 0;
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: 1.45;
+  color: #d6d6d6;
+}
+.case-points li:nth-child(1) { width: 86%; }
+.case-points li:nth-child(2) { width: 74%; }
+.case-points li:nth-child(3) { width: 62%; }
+.case-points li:nth-child(n+4) { width: 54%; }
+.case-points .mono-num { margin: 0; }
+.case-points strong { font-weight: 500; color: var(--fg); margin-right: 6px; }
+.case-sec > .pm-stack { margin-top: var(--gap-s); }
+.case-steps { display: grid; gap: var(--gap-s); margin-top: var(--gap-s); }
+.case-step-title { margin: 0; font-size: clamp(20px, 1.7vw, 26px); font-weight: 400; letter-spacing: -0.02em; }
+.case-step .case-body { margin-top: 12px; }
+.case-step .pm-stack { margin-top: 28px; }
+.case-sec-text:empty { display: none; }
+
+/* Médias */
+.pm-stack { display: grid; gap: var(--gut); }
+.pm-row { display: grid; gap: var(--gut); align-items: start; }
+.pm-1 { grid-template-columns: 1fr; }
+.pm-2 { grid-template-columns: 1fr 1fr; }
+.pm-3 { grid-template-columns: repeat(3, 1fr); }
+.pm-phones { width: min(100%, 980px); margin-inline: auto; }
+.pm { margin: 0; }
+.pm .media { aspect-ratio: var(--ar); overflow: hidden; background: #0d0d0d; }
+.pm img, .pm video { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* apparition « mise au point » : flou qui se dissipe */
+.page-case [data-reveal="image"] { translate: 0 0; filter: blur(16px); transition: opacity 1.2s ease, filter 1.5s var(--out); }
+.page-case [data-reveal="image"].is-in { filter: blur(0); }
+
+/* Projet suivant */
+.case-next { margin-top: var(--gap); }
+.case-next-link {
+  position: relative;
+  display: grid;
+  gap: 18px;
+  padding-block: 22px var(--gap-s);
+  border-top: 1px solid var(--line);
+}
+.case-next-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+.case-next-name { font-size: clamp(48px, 7vw, 112px); line-height: 0.95; }
+.case-next-arrow { font-size: clamp(40px, 5vw, 80px); font-weight: 200; line-height: 1; transition: transform 0.6s var(--ease); }
+.case-next-preview {
+  position: absolute;
+  right: calc(var(--pad) + clamp(70px, 7vw, 120px));
+  bottom: var(--gap-s);
+  width: clamp(140px, 13vw, 220px);
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(12px) scale(0.96);
+  transition: opacity 0.5s ease, transform 0.7s var(--ease);
+}
+.case-next-preview video { width: 100%; height: 100%; object-fit: cover; display: block; }
+@media (hover: hover) {
+  .case-next-link:hover .case-next-arrow { transform: translateX(14px); }
+  .case-next-link:hover .case-next-preview { opacity: 1; transform: none; }
+}
+
+@media (max-width: 1024px) {
+  .case-sec-label { grid-column: 1 / span 4; }
+  .case-sec-text { grid-column: 5 / span 8; }
+  .case-meta { grid-template-columns: 1fr 1fr; row-gap: 24px; }
+}
+@media (max-width: 700px) {
+  .case-grid { grid-template-columns: repeat(4, 1fr); }
+  .case-grid span:nth-child(n+5) { display: none; }
+  .case-grid span:nth-child(4) { border-right: 1px solid rgba(255, 255, 255, 0.05); }
+  .case-sec-head { grid-template-columns: 1fr; row-gap: 24px; }
+  .case-sec-label, .case-sec-text { grid-column: 1; position: static; }
+  .case-lead { text-indent: 18%; }
+  .case-points li { width: 100% !important; }
+  .pm-2, .pm-3 { grid-template-columns: 1fr; }
+  .pm-phones { grid-template-columns: repeat(3, 1fr); }
+  .case-next-preview { display: none; }
+}
+
+/* Grands mots gothiques (Marjolaine, Linkedin, projet suivant) : interlettrage resserré.
+   Les mots découpés lettre par lettre se resserrent par la marge des masques
+   (un letter-spacing négatif rognerait les lettres dans leur masque). */
+.fit.gothic { letter-spacing: -0.06em; }
+.fit.gothic .m-mask { margin-right: calc(-0.04em - 0.06em); }
+.fit.gothic .m-mask:last-child { margin-right: -0.04em; }
+.fit.gothic .m-ch { letter-spacing: 0; }
+
+/* Curseur « trait dessiné » */
+.cursor-wrap { position: fixed; inset: 0; z-index: 100; pointer-events: none; mix-blend-mode: difference; }
+.cursor-canvas { position: absolute; inset: 0; }
+.cursor-haze { filter: blur(10px); opacity: 0.9; }
+.cursor-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0;
+  transition: width 0.25s, height 0.25s, opacity 0.25s;
+  will-change: transform;
+}
+.cursor-dot.is-link { width: 16px; height: 16px; }
+/* l'ajustement du « Back to top » sous la spirale ne concerne que la home */
+.page-case .back-top-row { margin-top: 0; padding-top: var(--gap-s); }
+
+/* ==========================================================================
+   Système typographique unique (Geist + Geist Mono, comme les études de cas)
+   · Titres : Geist Light, approche serrée
+   · Textes : Geist Regular
+   · Interface (navigation, boutons, libellés, numéros, dates) :
+     Geist Mono, 12 px, capitales, approche +0.04em
+   ========================================================================== */
+.nav,
+.pill,
+.card .label,
+.expertise-list .num,
+.experience li span:nth-child(2),
+.experience li span:nth-child(4),
+.p-label,
+.case-items-caption {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.nav { gap: 24px; color: var(--muted); }
+.pill { padding: 10px 16px; border-width: 1px; border-radius: 0; }
+.card .label { margin-top: 12px; color: var(--fg); }
+.expertise-list .num { color: var(--muted); }
+.experience li span:nth-child(2),
+.experience li span:nth-child(4) { color: var(--muted); }
+.experience { font-weight: 400; font-size: 15px; }
+.expertise-list h3 { font-weight: 400; }
+.hero-intro h1 { font-weight: 400; letter-spacing: -0.03em; }
+.statement { font-weight: 400; letter-spacing: -0.03em; }
+.contact-list a { font-weight: 400; }
+.case-sec-label { color: var(--fg); }
+@media (max-width: 700px) {
+  .card .label { font-size: 12px; }
+  .experience li span:nth-child(2) { font-size: 11px; }
+}
+
+/* Transition vers un projet */
+.page-wipe { position: fixed; inset: 0; z-index: 300; pointer-events: none; }
+.page-wipe i { position: absolute; top: 0; bottom: 0; background: #000; box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.08); }
+
+/* Séparateur du bandeau « Projets » : astérisque fin qui tourne lentement */
+.marquee-item .mq-star {
+  width: 0.56em;
+  height: 0.56em;
+  flex: none;
+  animation: mq-spin 9s linear infinite;
+}
+@keyframes mq-spin { to { transform: rotate(360deg); } }
+.case-hero-link { margin-top: 28px; }
