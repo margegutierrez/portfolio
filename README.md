@@ -1,6 +1,6 @@
 # Portfolio — Marjolaine Gutierrez
 
-Site statique (HTML/CSS/JS, sans build), prêt pour Vercel.
+Site statique (HTML/CSS/JS, sans build), en ligne sur https://www.marjolainegutierrez.fr
 
 - `index.html` : home
 - `contact.html` : contact (servi en `/contact` grâce à `vercel.json`)
@@ -9,8 +9,7 @@ Site statique (HTML/CSS/JS, sans build), prêt pour Vercel.
 
 Images : `assets/images/` (WebP optimisés, récupérés depuis Framer).
 
-
-Déploiement : pousser ce dossier sur un repo GitHub, puis Vercel > Add New > Project > Import.
+Déploiement : chaque push sur `main` est publié automatiquement par Vercel.
 Framework preset : "Other", pas de commande de build, dossier racine `/`.
 
 Vidéos projets : `assets/videos/*.mp4` (boucles 8 s, H.264, sans son). Chargées à la première
