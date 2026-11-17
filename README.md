@@ -9,7 +9,8 @@ Site statique (HTML/CSS/JS, sans build), en ligne sur https://www.marjolaineguti
 
 Images : `assets/images/` (WebP optimisés, récupérés depuis Framer).
 
-Déploiement : chaque push sur `main` est publié automatiquement par Vercel.
+Déploiement : chaque push sur `main` est publié automatiquement par Vercel
+(dépôt GitHub margegutierrez/portfolio relié au projet Vercel).
 Framework preset : "Other", pas de commande de build, dossier racine `/`.
 
 Vidéos projets : `assets/videos/*.mp4` (boucles 8 s, H.264, sans son). Chargées à la première
