@@ -12,11 +12,24 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%8C%9A%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="assets/style.css">
   <style>.hero-name .fit.gothic .m-mask:last-child { margin-right: 0; } .hero-name-move { padding-inline: 0.6%; }
-    .contact-section { position: relative; display: flex; justify-content: center; padding-block: var(--gap-s) 0; scroll-margin-top: 20vh; }
-    .contact-section .contact-list { margin: 0 auto; width: min(100%, 500px); }
-    .contact-section { margin-top: calc(-1 * min(28svh, 260px)); z-index: 1; }
-    .page-home .back-top-row { margin-top: 0; padding-top: var(--gap-s); }
-    @media (max-width: 1024px) { .contact-section { margin-top: -18svh; } }</style>
+    .contact-sec { margin-top: calc(-1 * min(28svh, 260px)); position: relative; z-index: 1; scroll-margin-top: 10vh; }
+    .contact-rows { margin: 0; padding: 0; list-style: none; font-size: 15px; font-weight: 400; }
+    .contact-rows li { position: relative; }
+    .contact-rows a { display: grid; grid-template-columns: 29% 1fr auto; align-items: center; padding: 18px 0; }
+    .contact-rows li::before { content: ""; position: absolute; inset: auto 0 0 0; height: 1px; background: var(--fg); transform: scaleX(0); transform-origin: left; transition: transform 0.9s var(--ease); z-index: 1; }
+    .contact-rows li:hover::before { transform: scaleX(1); }
+    .contact-rows .arrow { width: 12px; height: 12px; transition: transform 0.4s var(--ease); }
+    .contact-rows a:hover .arrow { transform: translate(2px, -2px); }
+    .page-home .back-top-row { margin-top: 0; padding-top: 0; }
+    @media (hover: none) { .contact-rows li:hover::before { transform: scaleX(0); } }
+    @media (max-width: 1024px) { .contact-sec { margin-top: -18svh; } .page-home .back-top-row { padding-top: 0; } }
+    @media (max-width: 700px) {
+      .contact-rows a { grid-template-columns: 1fr auto; row-gap: 4px; padding: 14px 0; font-size: 13px; }
+      .contact-rows .c-label { grid-column: 1; grid-row: 1; font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+      .contact-rows .c-value { grid-column: 1; grid-row: 2; }
+      .contact-rows .arrow { grid-column: 2; grid-row: 1 / 3; }
+    }
+</style>
 </head>
 <body id="top" class="intro page-home">
 
@@ -170,37 +183,14 @@
         </div>
       </div>
     </section>
-    <section class="contact-section wrap" id="contact" aria-label="Contact">
-        <ul class="contact-list" data-reveal="rows">
-          <li>
-            <a href="https://maps.google.com/?q=Strasbourg" target="_blank" rel="noopener">
-              <span data-roll>Location : Strasbourg ❤︎</span>
-              <span class="hl" aria-hidden="true"></span>
-              <svg class="arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
-            </a>
-          </li>
-          <li>
-            <a href="https://www.linkedin.com/in/marjolaine-gutierrez-75636482/" target="_blank" rel="noopener">
-              <span data-roll>Follow me on Linkedin</span>
-              <span class="hl" aria-hidden="true"></span>
-              <svg class="arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
-            </a>
-          </li>
-          <li>
-            <a href="tel:+33767241119">
-              <span data-roll>+ 33 7 67 24 11 19</span>
-              <span class="hl" aria-hidden="true"></span>
-              <svg class="arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
-            </a>
-          </li>
-          <li>
-            <a href="mailto:marjolaine.gutierrez@gmail.com">
-              <span data-roll>marjolaine.gutierrez@gmail.com</span>
-              <span class="hl" aria-hidden="true"></span>
-              <svg class="arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
-            </a>
-          </li>
-        </ul>
+    <section class="section wrap contact-sec" id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title" class="section-title gothic" data-reveal="chars">Contact</h2>
+      <ul class="contact-rows" data-reveal="rows">
+          <li><a href="https://maps.google.com/?q=Strasbourg" target="_blank" rel="noopener"><span class="c-label">Location</span><span class="c-value">Strasbourg 🥨</span><svg class="arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a></li>
+          <li><a href="https://www.linkedin.com/in/marjolaine-gutierrez-75636482/" target="_blank" rel="noopener"><span class="c-label">Linkedin</span><span class="c-value">Follow me on Linkedin</span><svg class="arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a></li>
+          <li><a href="tel:+33767241119"><span class="c-label">Phone</span><span class="c-value">+ 33 7 67 24 11 19</span><svg class="arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a></li>
+          <li><a href="mailto:marjolaine.gutierrez@gmail.com"><span class="c-label">Email</span><span class="c-value">marjolaine.gutierrez@gmail.com</span><svg class="arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a></li>
+      </ul>
     </section>
   </main>
 
