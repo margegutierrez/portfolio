@@ -29,6 +29,11 @@
       .contact-rows .c-value { grid-column: 1; grid-row: 2; }
       .contact-rows .arrow { grid-column: 2; grid-row: 1 / 3; }
     }
+    /* Vignettes : apparition et inclinaison au scroll (d'après jithinrp.com) */
+    .page-home .card { will-change: transform; transform: skewY(var(--skew, 0deg)); transform-origin: 50% 50%; }
+    .page-home .card .media[data-reveal="image"] { translate: 0 40px; transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), translate 1.3s cubic-bezier(0.16, 1, 0.3, 1); }
+    .page-home .card .media[data-reveal="image"].is-in { translate: 0 0; }
+    .page-home .card [data-reveal="image"] .plx, .page-home .card [data-reveal="image"].is-in .plx { --ps: 1.12; }
 </style>
 </head>
 <body id="top" class="intro page-home">
@@ -206,5 +211,22 @@
 
   <script src="assets/lenis.min.js"></script>
   <script src="assets/main.js"></script>
+  <script>
+  /* Inclinaison des vignettes selon la vitesse de scroll, avec retour amorti */
+  (() => {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const cards = [...document.querySelectorAll(".page-home .card")];
+    if (!cards.length) return;
+    let last = scrollY, skew = 0, shown = 0;
+    const tick = () => {
+      const v = scrollY - last; last = scrollY;
+      const target = Math.max(-3, Math.min(3, -v * 0.1));
+      skew += (target - skew) * 0.12;
+      if (Math.abs(skew - shown) > 0.01) { shown = skew; const val = skew.toFixed(3) + "deg"; cards.forEach((c) => c.style.setProperty("--skew", val)); }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  })();
+  </script>
 </body>
 </html>
