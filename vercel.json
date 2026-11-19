@@ -2,6 +2,15 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/work/joseph-duclos", "destination": "/joseph-duclos", "permanent": true }
+    {
+      "source": "/work/joseph-duclos",
+      "destination": "/joseph-duclos",
+      "permanent": true
+    },
+    {
+      "source": "/contact",
+      "destination": "/#contact",
+      "permanent": true
+    }
   ]
 }

@@ -11,7 +11,12 @@
   <link rel="preload" href="assets/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%8C%9A%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="assets/style.css">
-  <style>.hero-name .fit.gothic .m-mask:last-child { margin-right: 0; } .hero-name-move { padding-inline: 0.6%; }</style>
+  <style>.hero-name .fit.gothic .m-mask:last-child { margin-right: 0; } .hero-name-move { padding-inline: 0.6%; }
+    .contact-section { position: relative; display: flex; justify-content: center; padding-block: var(--gap-s) 0; scroll-margin-top: 20vh; }
+    .contact-section .contact-list { margin: 0 auto; width: min(100%, 500px); }
+    .contact-section { margin-top: calc(-1 * min(28svh, 260px)); z-index: 1; }
+    .page-home .back-top-row { margin-top: 0; padding-top: var(--gap-s); }
+    @media (max-width: 1024px) { .contact-section { margin-top: -18svh; } }</style>
 </head>
 <body id="top" class="intro page-home">
 
@@ -19,8 +24,7 @@
     <div class="bar">
       <a href="index.html" class="logo gothic">Marjolaine Gutierrez</a>
       <nav class="nav" aria-label="Navigation principale">
-        <a href="index.html" aria-current="page"><span data-roll>Home</span></a>
-        <a href="contact.html"><span data-roll>Contact</span></a>
+        <a href="#contact"><span data-roll>Contact</span></a>
       </nav>
     </div>
     <hr class="rule">
@@ -165,6 +169,38 @@
           </div>
         </div>
       </div>
+    </section>
+    <section class="contact-section wrap" id="contact" aria-label="Contact">
+        <ul class="contact-list" data-reveal="rows">
+          <li>
+            <a href="https://maps.google.com/?q=Strasbourg" target="_blank" rel="noopener">
+              <span data-roll>Location : Strasbourg ❤︎</span>
+              <span class="hl" aria-hidden="true"></span>
+              <svg class="arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/in/marjolaine-gutierrez-75636482/" target="_blank" rel="noopener">
+              <span data-roll>Follow me on Linkedin</span>
+              <span class="hl" aria-hidden="true"></span>
+              <svg class="arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+            </a>
+          </li>
+          <li>
+            <a href="tel:+33767241119">
+              <span data-roll>+ 33 7 67 24 11 19</span>
+              <span class="hl" aria-hidden="true"></span>
+              <svg class="arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+            </a>
+          </li>
+          <li>
+            <a href="mailto:marjolaine.gutierrez@gmail.com">
+              <span data-roll>marjolaine.gutierrez@gmail.com</span>
+              <span class="hl" aria-hidden="true"></span>
+              <svg class="arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+            </a>
+          </li>
+        </ul>
     </section>
   </main>
 

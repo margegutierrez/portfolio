@@ -2,8 +2,7 @@
 
 Site statique (HTML/CSS/JS, sans build), en ligne sur https://www.marjolainegutierrez.fr
 
-- `index.html` : home
-- `contact.html` : contact (servi en `/contact` grâce à `vercel.json`)
+- `index.html` : home (one page) ; le bloc contact est en bas (`#contact`), `/contact` y redirige via `vercel.json`
 - `assets/style.css`, `assets/main.js` : styles et animations
 - `assets/fonts/` : Geist et Geist Mono auto-hébergées (pas d'appel à Google Fonts, RGPD-friendly)
 
