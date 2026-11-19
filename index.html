@@ -220,7 +220,7 @@
     let last = scrollY, skew = 0, shown = 0;
     const tick = () => {
       const v = scrollY - last; last = scrollY;
-      const target = Math.max(-3, Math.min(3, -v * 0.1));
+      const target = Math.max(-6, Math.min(6, -v * 0.22));
       skew += (target - skew) * 0.12;
       if (Math.abs(skew - shown) > 0.01) { shown = skew; const val = skew.toFixed(3) + "deg"; cards.forEach((c) => c.style.setProperty("--skew", val)); }
       requestAnimationFrame(tick);
