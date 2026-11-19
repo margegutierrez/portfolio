@@ -1,7 +1,8 @@
 /* Vignettes « liquides » de la home (d'après jithinrp.com)
    Chaque vignette est redessinée en WebGL sur un calque fixe :
    · au scroll, la feuille se courbe, le milieu traîne derrière comme une surface liquide ;
-   · à l'apparition, l'image se dévoile de bas en haut avec un bord ondulé ;
+   · à l'apparition, l'image arrive en gros plan, recule dans son cadre et se pose en fondu
+     (même entrée que les projets de jithinrp.com, rejouée si on remonte au-dessus) ;
    · au survol, une loupe liquide et des ondes suivent le curseur.
    Sans WebGL ou avec « réduire les animations », les vignettes restent en HTML. */
 (() => {
@@ -63,7 +64,7 @@
     uniform vec4 uTexMap;    // décalage + échelle : coordonnées de la vignette -> texture (cadrage, parallaxe)
     uniform vec2 uSize;
     uniform vec2 uMouse;
-    uniform float uHover, uReveal, uSeed, uTime, uVelocity, uDim;
+    uniform float uHover, uFade, uSeed, uTime, uVelocity, uDim;
     varying vec2 vUv;
     ${NOISE}
     void main(){
@@ -83,12 +84,7 @@
       uv.y += n * uVelocity * 0.0007;
       vec2 t = uTexMap.xy + uv * uTexMap.zw;
       vec3 col = texture2D(uTex, t).rgb * uDim;
-      // dévoilement de bas en haut, bord ondulé
-      float nn = snoise(vec3(top.x * 3.0, top.y * 1.5, uTime * 0.6 + uSeed)) * 0.12;
-      float h = (1.0 - top.y) + nn;
-      float edge = uReveal * 1.35 - 0.12;
-      float a = smoothstep(edge, edge - 0.08, h);
-      gl_FragColor = vec4(col * a, a);
+      gl_FragColor = vec4(col * uFade, uFade);
     }`;
 
   const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
@@ -111,13 +107,35 @@
   const aUv = gl.getAttribLocation(prog, "aUv");
   gl.enableVertexAttribArray(aUv); gl.vertexAttribPointer(aUv, 2, gl.FLOAT, false, 0, 0);
   const U = {};
-  ["uRect", "uView", "uVelocity", "uTex", "uTexMap", "uSize", "uMouse", "uHover", "uReveal", "uSeed", "uTime", "uDim"]
+  ["uRect", "uView", "uVelocity", "uTex", "uTexMap", "uSize", "uMouse", "uHover", "uFade", "uSeed", "uTime", "uDim"]
     .forEach((k) => (U[k] = gl.getUniformLocation(prog, k)));
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
   gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
 
-  const ease = (t) => 1 - Math.pow(1 - t, 3);   // power3.out
+  // courbes GSAP utilisées par la référence
+  const E = {
+    p2out: (t) => 1 - (1 - t) * (1 - t),
+    p2in: (t) => t * t,
+    p3inOut: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
+  };
+  // petite interpolation : chaque valeur part d'où elle est et rejoint sa cible
+  const tween = (o, k, from, to, dur, ease, now) => (o[k] = { from, to, t0: now, dur: dur * 1000, ease });
+  const val = (tw, now) => tw.from + (tw.to - tw.from) * tw.ease(Math.min(1, Math.max(0, (now - tw.t0) / tw.dur)));
+  // entrée : gros plan (×1,3) qui recule dans son cadre en 1,5 s, fondu en 0,7 s
+  const show = (it, now) => {
+    it.shown = true;
+    tween(it.tw, "y", 0, 0, 0.001, E.p2out, now);
+    tween(it.tw, "s", 1.3, 1, 1.5, E.p3inOut, now);
+    tween(it.tw, "f", 0, 1, 0.7, E.p2out, now);
+  };
+  // sortie (en remontant) : l'image descend un peu, rétrécit et s'efface
+  const hide = (it, now) => {
+    it.shown = false;
+    tween(it.tw, "y", val(it.tw.y, now), 90, 0.7, E.p2in, now);
+    tween(it.tw, "s", val(it.tw.s, now), 0.86, 0.7, E.p2in, now);
+    tween(it.tw, "f", val(it.tw.f, now), 0, 0.6, E.p2in, now);
+  };
   const items = cards.map((card) => {
     const media = card.querySelector(".media");
     const plx = card.querySelector(".plx") || media;
@@ -129,7 +147,8 @@
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([13, 13, 13, 255]));
-    const it = { card, media, plx, video, tex, ready: false, w: 1, h: 1, reveal: 0, revealStart: -1,
+    const it = { card, media, plx, video, tex, ready: false, w: 1, h: 1, shown: false,
+      tw: { y: { from: 90, to: 90, t0: 0, dur: 1, ease: E.p2out }, s: { from: 0.86, to: 0.86, t0: 0, dur: 1, ease: E.p2out }, f: { from: 0, to: 0, t0: 0, dur: 1, ease: E.p2out } },
       hover: 0, hoverTarget: 0, mouse: [0.5, 0.5], mouseT: [0.5, 0.5], dim: 1, seed: Math.random() * 100 };
     const poster = new Image();
     poster.onload = () => {
@@ -175,11 +194,14 @@
 
     for (const it of items) {
       const r = it.media.getBoundingClientRect();
-      if (r.bottom < -80 || r.top > H + 80 || r.width === 0) continue;
-
-      // apparition quand la vignette atteint 92 % de la hauteur de l'écran
-      if (it.revealStart < 0 && r.top < H * 0.92) it.revealStart = now;
-      it.reveal = it.revealStart < 0 ? 0 : ease(Math.min(1, (now - it.revealStart) / 1800));
+      // entrée quand le haut de la vignette passe 72 % de l'écran, sortie si on remonte au-dessus
+      if (!it.shown && r.top < H * 0.72) show(it, now);
+      else if (it.shown && r.top > H * 0.72) hide(it, now);
+      const ty = val(it.tw.y, now), sc = val(it.tw.s, now), fade = val(it.tw.f, now);
+      if (fade <= 0.001 || r.width === 0) continue;
+      const dw = r.width * sc, dh = r.height * sc;
+      const dx = r.left + (r.width - dw) / 2, dy = r.top + (r.height - dh) / 2 + ty;
+      if (dy + dh < -120 || dy > H + 120) continue;
 
       // survol : entrée rapide, sortie plus lente ; le point suit le curseur en douceur
       const k = it.hoverTarget > it.hover ? 0.08 : 0.04;
@@ -212,11 +234,11 @@
       const bx = r.width / p.width, by = r.height / p.height;
       gl.uniform4f(U.uTexMap, ox + ax * sx, oy + ay * sy, bx * sx, by * sy);
 
-      gl.uniform4f(U.uRect, r.left, r.top, r.width, r.height);
-      gl.uniform2f(U.uSize, r.width, r.height);
+      gl.uniform4f(U.uRect, dx, dy, dw, dh);
+      gl.uniform2f(U.uSize, dw, dh);
       gl.uniform2f(U.uMouse, it.mouse[0], it.mouse[1]);
       gl.uniform1f(U.uHover, it.hover);
-      gl.uniform1f(U.uReveal, it.reveal);
+      gl.uniform1f(U.uFade, fade);
       gl.uniform1f(U.uSeed, it.seed);
       gl.uniform1f(U.uDim, it.dim);
       gl.uniform1i(U.uTex, 0);
