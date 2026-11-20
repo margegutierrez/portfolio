@@ -40,7 +40,22 @@
     .has-liquid .page-home .card .media[data-reveal="image"] { opacity: 1; translate: 0 0; background: transparent; transition: none; }
     .has-liquid .page-home .card .media video { opacity: 0; }
     .page-home .card [data-reveal="image"] .plx, .page-home .card [data-reveal="image"].is-in .plx { --ps: 1.12; }
+    /* Arrivée depuis une page projet : écran noir tenu jusqu'à ce que la page soit en place */
+    html.is-arriving::after { content: ""; position: fixed; inset: 0; background: #000; z-index: 299; }
 </style>
+  <script>
+    (() => {
+      let wipe = false, y = null;
+      try { wipe = !!sessionStorage.getItem("wipe"); y = sessionStorage.getItem("homeY"); sessionStorage.removeItem("homeY"); } catch (_) {}
+      const nav = (performance.getEntriesByType && performance.getEntriesByType("navigation")[0]) || {};
+      const back = nav.type === "back_forward";
+      window.__homeSkipIntro = wipe || back || !!location.hash;
+      window.__homeReturn = (wipe || back) && y !== null && !/#contact$/.test(location.hash) ? Number(y) : null;
+      // on revient à la position quittée : l'ancre ne doit pas faire sauter la page ensuite
+      if (window.__homeReturn != null && location.hash) history.replaceState(null, "", location.pathname + location.search);
+      if (wipe) document.documentElement.classList.add("is-arriving");
+    })();
+  </script>
 </head>
 <body id="top" class="intro page-home">
 
@@ -223,10 +238,38 @@
   <script>
     /* garde une référence au défilement doux pour l'ancre Contact */
     if (window.Lenis) { const L = window.Lenis; window.Lenis = class extends L { constructor(o) { super(o); window.__lenis = this; } }; }
+    /* Retour sur la home : pas d'intro, on retrouve l'endroit d'où l'on était parti */
+    if (window.__homeSkipIntro) document.body.classList.remove("intro");
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest("a[href]");
+      if (a && /\.html/.test(a.getAttribute("href")) && a.target !== "_blank") {
+        try { sessionStorage.setItem("homeY", String(Math.round(scrollY))); } catch (_) {}
+      }
+    }, true);
   </script>
   <script src="assets/main.js"></script>
   <script src="assets/liquid.js"></script>
   <script>
+    /* Retour sur la home : on se place tout de suite au bon endroit, sous le rideau */
+    (() => {
+      const target = () => {
+        if (window.__homeReturn != null) return window.__homeReturn;
+        const el = location.hash && document.querySelector(location.hash);
+        if (!el) return null;
+        const m = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+        return el.getBoundingClientRect().top + scrollY - m;
+      };
+      const go = () => {
+        const y = target();
+        if (y == null || isNaN(y)) return;
+        window.scrollTo(0, y);
+        const l = window.__lenis;
+        if (l) { try { l.resize && l.resize(); } catch (_) {} l.scrollTo(y, { immediate: true, force: true }); }
+      };
+      if (target() != null) { go(); addEventListener("load", go, { once: true }); addEventListener("pageshow", go); }
+      // le rideau de main.js a pris le relais : on lève l'écran noir d'attente
+      document.documentElement.classList.remove("is-arriving");
+    })();
     /* Contact : défilement éclair jusqu'au bloc */
     document.querySelectorAll('a[href="#contact"]').forEach((a) => a.addEventListener("click", (e) => {
       const target = document.getElementById("contact");
